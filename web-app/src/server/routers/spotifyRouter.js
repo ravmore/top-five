@@ -6,20 +6,31 @@ import request from 'request'
 const clientId = secrets.spotify.clientId;
 const clientSecret = secrets.spotify.clientSecret;
 
-const router = express.Router();
-const base = '/spotify';
+// routers and base paths
+const rootRouter = express.Router();
+const rootPath = '/spotify';
+const authRouter = express.Router();
+const authPath = `${rootPath}/auth`;
+const apiRouter = express.Router();
+const apiPath = `${rootPath}/api`;
 
-router.get(`${base}/`, (req, res) => {
+// root router
+rootRouter.all([rootPath, `${rootPath}/`], (req, res) => {
   res.send('Spotify Route');
 });
 
-router.get(`${base}/auth`, (req, res) => {
-  const redirectUri = 'http://localhost:8080/spotify/token';
+rootRouter.all([authPath, `${authPath}/*`], authRouter);
+
+rootRouter.all([apiPath, `${apiPath}/*`], apiRouter);
+
+// auth router
+authRouter.get(authPath, (req, res) => {
+  const redirectUri = 'http://localhost:8080/spotify/auth/token';
   const url = `https://accounts.spotify.com/authorize/?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}`;
   res.redirect(url);
 });
 
-router.get(`${base}/token`, (req, res) => {
+authRouter.get(`${authPath}/token`, (req, res) => {
   if (req.query.error) {
     res.send('code error');
     return;
@@ -27,7 +38,7 @@ router.get(`${base}/token`, (req, res) => {
 
   const code = req.query.code;
   const state = req.query.state;
-  const redirectUri = 'http://localhost:8080/spotify/token';
+  const redirectUri = 'http://localhost:8080/spotify/auth/token';
   const authHeader = 'Basic ' + Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
   axios({
     method: 'post',
@@ -50,4 +61,9 @@ router.get(`${base}/token`, (req, res) => {
     });
 });
 
-module.exports = router;
+// api router
+apiRouter.get(apiPath, (req, res) => {
+  res.send('Api Route');
+});
+
+module.exports = rootRouter;

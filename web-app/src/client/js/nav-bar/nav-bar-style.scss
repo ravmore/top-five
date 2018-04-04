@@ -1,0 +1,52 @@
+.header {
+  @extend .container-fluid, .fixed-top, .p-0, .pt-4, .border-bottom;
+  font-family: lato;
+  white-space: pre;
+  background-color: white;
+
+  .logo {
+    @extend .pb-3;
+    font-size: 36px;
+    text-align: center;
+    color: black;
+  }
+
+  .logo:hover {
+    text-decoration: none;
+  }
+}
+
+.menu-btn {
+  @extend .col-1, .offset-1, .mb-3;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: fill;
+}
+
+.toggleable {
+  height: 0px;
+}
+
+.menu {
+  @extend .container-fluid, .m-0, .border-top;
+  font-family: lato;
+  white-space: pre;
+  background-color: whitesmoke;
+
+  .menu-item {
+    @extend .m-0, .pb-3, .pt-3, .col, .text-center;
+    color: black;
+    cursor: pointer;
+    visibility: hidden;
+  }
+
+  .menu-item:hover {
+    @extend .border-bottom;
+    text-decoration: none;
+    background-color: whitesmoke;
+    color: grey;
+  }
+}

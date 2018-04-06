@@ -1,12 +1,15 @@
 import express from 'express';
 import axios from 'axios';
 import secrets from '../secrets';
-import request from 'request'
+import config from '../config';
 
 const clientId = secrets.spotify.clientId;
 const clientSecret = secrets.spotify.clientSecret;
 
-// routers and base paths
+//:::::::::::::::::::::::::::::::::://
+//      Routers & Base Paths        //
+//:::::::::::::::::::::::::::::::::://
+
 const rootRouter = express.Router();
 const rootPath = '/spotify';
 const authRouter = express.Router();
@@ -14,22 +17,29 @@ const authPath = `${rootPath}/auth`;
 const apiRouter = express.Router();
 const apiPath = `${rootPath}/api`;
 
-// root router
-rootRouter.all([rootPath, `${rootPath}/`], (req, res) => {
-  res.send('Spotify Route');
-});
+//::::::::::::::::::::::::::::::::::://
+//            Root Router            //
+//::::::::::::::::::::::::::::::::::://
 
+// '/spotify'
+rootRouter.all([rootPath, `${rootPath}/`], (req, res) => res.send('Spotify Route'));
+// '/spotify/auth'
 rootRouter.all([authPath, `${authPath}/*`], authRouter);
-
+// '/spotify/api'
 rootRouter.all([apiPath, `${apiPath}/*`], apiRouter);
 
-// auth router
+//:::::::::::::::::::::::::::::::::://
+//            Auth Router           //
+//:::::::::::::::::::::::::::::::::://
+
+//  route returns url to spotify authorization check 
 authRouter.get(authPath, (req, res) => {
-  const redirectUri = 'http://localhost:8080/spotify/auth/token';
+  const redirectUri = `${config.host}/r/spotify/auth`;
   const url = `https://accounts.spotify.com/authorize/?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}`;
-  res.redirect(url);
+  res.send(url);
 });
 
+//  route used to exchange code for token
 authRouter.get(`${authPath}/token`, (req, res) => {
   if (req.query.error) {
     res.send('code error');
@@ -38,7 +48,7 @@ authRouter.get(`${authPath}/token`, (req, res) => {
 
   const code = req.query.code;
   const state = req.query.state;
-  const redirectUri = 'http://localhost:8080/spotify/auth/token';
+  const redirectUri = `${config.host}/r/spotify/auth`;
   const authHeader = 'Basic ' + Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
   axios({
     method: 'post',
@@ -61,7 +71,10 @@ authRouter.get(`${authPath}/token`, (req, res) => {
     });
 });
 
-// api router
+//:::::::::::::::::::::::::::::::::://
+//           Api Router             //
+//:::::::::::::::::::::::::::::::::://
+
 apiRouter.get(apiPath, (req, res) => {
   res.send('Api Route');
 });

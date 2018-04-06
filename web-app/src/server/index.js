@@ -4,6 +4,8 @@ import os from 'os';
 import path from 'path';
 import bodyParser from 'body-parser';
 
+import config from './config';
+
 import renderRouter from './routers/renderRouter';
 import spotifyRouter from './routers/spotifyRouter';
 
@@ -16,16 +18,26 @@ app.use(express.static(path.join(__dirname, '../../static')));
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
+// cors policies
+app.use((req, res, next) => {
+  // Website you wish to allow to connect
+  res.set({
+    'Access-Control-Allow-Origin': '*',
+  });
+
+  next();
+});
+
 // Routes for server rendering
-app.get(['/r', '/r/*'], renderRouter);
+app.all(['/r', '/r/*'], renderRouter);
 app.get('/', (req, res) => res.redirect('/r'));
 
 // Router for Spotify API
-app.get(['/spotify', '/spotify/*'], spotifyRouter)
+app.all(['/spotify', '/spotify/*'], spotifyRouter)
 
 // All workers use this port
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+
+app.listen(config.PORT, () => console.log(`Listening on port ${config.PORT}`));
 
 // if (cluster.isMaster) { 
 //     const numCPUs = os.cpus().length; 

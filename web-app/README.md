@@ -1,7 +1,20 @@
 # Top Five Web App
 
 ### Summary
-Node/React web app for Top Five 
+Node/React web app for Top Five
+
+## Local deploy
+Add 'secrets.js' file to the server directory with the following formate:
+```
+const secrets = {};
+
+secrets.spotify = {
+  clientId: 'CLIENT_ID',
+  clientSecret: 'CLIENT_SECRET',
+};
+
+export default secrets
+```
 
 ### Run it
 To run this app follow these steps:

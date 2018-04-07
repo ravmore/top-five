@@ -1,4 +1,8 @@
-const renderHtml = (rootContent, title='Isomorphic Template') => {
+// returns html with rootContent (string) and title (string) inserted
+const renderHtml = (rootContent, title) => {
+	title = title || 'Isomorphic Template';
+	if (typeof rootContent !== 'string')
+		return `:::ERROR::: rootContent must be a string. Recieved type ${typeof rootContent}`;
 	return `
 		<!doctype html>
 		<html>
@@ -12,7 +16,7 @@ const renderHtml = (rootContent, title='Isomorphic Template') => {
 			<script src="/js/bundle.js"></script>
 		</body>
 		</html>
-	`
+	`;
 }
 
 export default renderHtml;

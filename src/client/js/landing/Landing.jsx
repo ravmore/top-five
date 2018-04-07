@@ -1,15 +1,39 @@
 import React from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
 
-const auth = () => {
-  axios.get('http://localhost:8080/spotify/auth')
-    .then(({data}) => console.log(data));
-}
+import SpotifyAuth from '../spotify-auth/SpotifyAuth';
 
-const Landing = props => (
-	<div>
-		Top Five
-	</div>
-);
+class Landing extends React.Component {
+  constructor(props) {
+    super(props);
 
-export default Landing;
+    this.state = {
+      doAuth: false,
+    };
+
+    this.handleAuthClick = this.handleAuthClick.bind(this);
+  }
+
+  handleAuthClick(e) {
+    e.preventDefault();
+    this.setState({ doAuth: true });
+  }
+
+  render() {
+    return (
+      <div>
+        Top Five
+        <button
+          onClick={this.handleAuthClick}
+        >Auth</button>
+        <SpotifyAuth
+          getToken={this.state.doAuth}
+          location={this.props.location}
+        ></SpotifyAuth>
+      </div>
+    );
+  }
+};
+
+export default connect()(Landing);;

@@ -1,5 +1,6 @@
 import express from 'express';
 import axios from 'axios';
+
 import secrets from '../secrets';
 import config from '../config';
 
@@ -32,24 +33,29 @@ rootRouter.all([apiPath, `${apiPath}/*`], apiRouter);
 //            Auth Router           //
 //:::::::::::::::::::::::::::::::::://
 
+// '/spotify/auth'
 //  route returns url to spotify authorization check 
-authRouter.get(authPath, (req, res) => {
-  const redirectUri = `${config.host}/r/spotify/auth`;
-  const url = `https://accounts.spotify.com/authorize/?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}`;
+authRouter.post(authPath, (req, res) => {
+  if (!req.body.redirect) {
+    res.send({ error: '"redirect" body property required' });
+  }
+  const spotifyAuthUrl = 'https://accounts.spotify.com/authorize/';
+  const redirectUri = `${config.host}${req.body.redirect}`;
+  const url = `${spotifyAuthUrl}?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}`;
   res.send(url);
 });
 
+// '/spotify/auth/token'
 //  route used to exchange code for token
-authRouter.get(`${authPath}/token`, (req, res) => {
-  if (req.query.error) {
-    res.send('code error');
-    return;
-  }
-
+authRouter.post(`${authPath}/token`, (req, res) => {
   const code = req.query.code;
-  const state = req.query.state;
-  const redirectUri = `${config.host}/r/spotify/auth`;
+  const redirectUri = `${config.host}${req.body.redirect}`;
   const authHeader = 'Basic ' + Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
+  if (!req.query.code) {
+    res.send({ error: '"code" param required' });
+  } else if (!req.body.redirect) {
+    res.send({ error: '"redirect" body property required' });
+  }
   axios({
     method: 'post',
     url: 'https://accounts.spotify.com/api/token',
@@ -67,7 +73,8 @@ authRouter.get(`${authPath}/token`, (req, res) => {
       res.send(data);
     })
     .catch(e => {
-      res.send('token error');
+      console.error(e);
+      res.send({ error: 'token error' });
     });
 });
 
@@ -75,6 +82,7 @@ authRouter.get(`${authPath}/token`, (req, res) => {
 //           Api Router             //
 //:::::::::::::::::::::::::::::::::://
 
+// '/api'
 apiRouter.get(apiPath, (req, res) => {
   res.send('Api Route');
 });

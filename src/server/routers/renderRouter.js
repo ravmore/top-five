@@ -2,11 +2,14 @@ import express from 'express';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
+
 import AppRoutes from '../../client/js/app-router/AppRoutes';
 import getHtml from '../getHtml';
 
 const router = express.Router();
 
+// '/r' & '/r/*'
+// route renders frontend react UI and logic
 router.all('*', (req, res) => {
   let context = {};
 

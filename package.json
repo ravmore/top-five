@@ -1,0 +1,50 @@
+{
+  "name": "node-react-isomorphic-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node build/server/index.js",
+    "start:dev": "nodemon build/server/index.js",
+    "build:server": "babel ./src -d build",
+    "build:server:dev": "babel ./src -d build --watch",
+    "build:client": "webpack --mode development",
+    "build:client:dev": "webpack --watch --mode development",
+    "build:client:prod": "webpack --mode production",
+    "dev": "concurrently --kill-others \"npm run _build:server\" \"npm run _build:client\" \"npm run _start\"",
+    "_build:server": "babel ./src -d build --watch -new_console:b",
+    "_build:client": "webpack --watch --mode development -new_console:b",
+    "_start": "nodemon build/server/index.js SERVER_LOGS=on -new_console:b",
+    "sass": "sass src/client/styling/main.scss static/css/main.css",
+    "seed": "node src/server/db/seed.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alec Draymore",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bootstrap": "^4.0.0",
+    "debug": "^3.1.0",
+    "express": "^4.16.3",
+    "pg": "^7.4.1",
+    "sequelize": "^4.37.6"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "concurrently": "^3.5.1",
+    "css-loader": "^0.28.11",
+    "nodemon": "^1.17.3",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-router-dom": "^4.2.2",
+    "style-loader": "^0.20.3",
+    "webpack": "^4.3.0",
+    "webpack-cli": "^2.0.13"
+  }
+}

@@ -1,8 +1,0 @@
-.sass-cache
-main.css.map
-/build
-/node_modules
-/static/js
-/static/images
-package-lock.json
-secrets.js

@@ -5,6 +5,7 @@ import config from '../config';
 
 const clientId = secrets.spotify.clientId;
 const clientSecret = secrets.spotify.clientSecret;
+const scope = 'playlist-read-private playlist-modify-private playlist-modify-public playlist-read-collaborative user-read-recently-played'
 
 //:::::::::::::::::::::::::::::::::://
 //      Routers & Base Paths        //
@@ -32,10 +33,10 @@ rootRouter.all([apiPath, `${apiPath}/*`], apiRouter);
 //            Auth Router           //
 //:::::::::::::::::::::::::::::::::://
 
-//  route returns url to spotify authorization check 
+//  route returns url to spotify authorization check
 authRouter.get(authPath, (req, res) => {
-  const redirectUri = `${config.host}/r/spotify/auth`;
-  const url = `https://accounts.spotify.com/authorize/?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}`;
+  const redirectUri = `${config.host}/r`;
+  const url = `https://accounts.spotify.com/authorize/?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=${scope}`;
   res.send(url);
 });
 
@@ -48,7 +49,7 @@ authRouter.get(`${authPath}/token`, (req, res) => {
 
   const code = req.query.code;
   const state = req.query.state;
-  const redirectUri = `${config.host}/r/spotify/auth`;
+  const redirectUri = `${config.host}/r`;
   const authHeader = 'Basic ' + Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
   axios({
     method: 'post',
@@ -64,6 +65,7 @@ authRouter.get(`${authPath}/token`, (req, res) => {
     json: true
   })
     .then(({data}) => {
+      console.log('DATA', data);
       res.send(data);
     })
     .catch(e => {

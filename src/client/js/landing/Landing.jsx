@@ -24,16 +24,29 @@ class Landing extends React.Component {
     return (
       <div>
         Top Five
-        <button
-          onClick={this.handleAuthClick}
-        >Auth</button>
-        <SpotifyAuth
-          getToken={this.state.doAuth}
-          location={this.props.location}
-        ></SpotifyAuth>
+        {
+          this.props.token.access_token ? null :
+          <button
+            onClick={this.handleAuthClick}
+          >Auth</button>
+        }
+          <SpotifyAuth
+            getToken={this.state.doAuth}
+            location={this.props.location}
+          /> 
       </div>
     );
   }
 };
 
-export default connect()(Landing);;
+export default connect(
+mapStateToProps,
+null
+)(Landing);;
+
+function mapStateToProps(state, ownProps) {
+  return {
+    ...ownProps,
+    token: state.token,
+  };
+};

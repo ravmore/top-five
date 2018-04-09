@@ -3,6 +3,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 
 import SpotifyAuth from '../spotify-auth/SpotifyAuth';
+import SearchBar from '../search-bar/searchbar';
 
 class Landing extends React.Component {
   constructor(props) {
@@ -33,16 +34,14 @@ class Landing extends React.Component {
           <SpotifyAuth
             getToken={this.state.doAuth}
             location={this.props.location}
-          /> 
+          />
+        <SearchBar />
       </div>
     );
   }
 };
 
-export default connect(
-mapStateToProps,
-null
-)(Landing);;
+export default connect(mapStateToProps, null)(Landing);;
 
 function mapStateToProps(state, ownProps) {
   return {

@@ -4,21 +4,17 @@ import os from 'os';
 import path from 'path';
 import bodyParser from 'body-parser';
 
+import { db } from './db';
 import config from './config';
 import renderRouter from './routers/renderRouter';
 import spotifyRouter from './routers/spotifyRouter';
 
-<<<<<<< HEAD:web-app/src/server/index.js
-const { db } = require('./db')
-
-=======
 
 //:::::::::::::::::::::::::::::::::://
 //     single instance server       //
 //:::::::::::::::::::::::::::::::::://
 
 // initialize express app
->>>>>>> ef6f42646b625257e0a56b51142bcd6b3a1c5d0d:src/server/index.js
 const app = express();
 
 // logs to console all incoming requests for debugging
@@ -45,7 +41,6 @@ app.get('/', (req, res) => res.redirect('/r'));
 // router for Spotify API
 app.all(['/spotify', '/spotify/*'], spotifyRouter)
 
-<<<<<<< HEAD:web-app/src/server/index.js
 //App API
 app.use('/api', require('./api'));
 
@@ -57,17 +52,6 @@ db.sync()
 
 // if (cluster.isMaster) {
 //     const numCPUs = os.cpus().length;
-=======
-// set app to listen on port fomr config
-app.listen(config.PORT, () => console.log(`Listening on port ${config.PORT}`));
-
-//:::::::::::::::::::::::::::::::::://
-//        server cluster            //
-//:::::::::::::::::::::::::::::::::://
-
-// if (cluster.isMaster) { 
-//     const numCPUs = os.cpus().length; 
->>>>>>> ef6f42646b625257e0a56b51142bcd6b3a1c5d0d:src/server/index.js
 //     for (let i = 0; i < numCPUs; i++) {
 //         // Create a worker
 //         cluster.fork();

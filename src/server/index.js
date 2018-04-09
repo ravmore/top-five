@@ -9,12 +9,12 @@ import config from './config';
 import renderRouter from './routers/renderRouter';
 import spotifyRouter from './routers/spotifyRouter';
 
-
 //:::::::::::::::::::::::::::::::::://
 //     single instance server       //
 //:::::::::::::::::::::::::::::::::://
 
 // initialize express app
+
 const app = express();
 
 // logs to console all incoming requests for debugging
@@ -49,6 +49,13 @@ db.sync()
 .then(()=> {
   app.listen(config.PORT, () => console.log(`Listening on port ${config.PORT}`))
 });
+
+// if (cluster.isMaster) {
+//     const numCPUs = os.cpus().length;
+
+//:::::::::::::::::::::::::::::::::://
+//        server cluster            //
+//:::::::::::::::::::::::::::::::::://
 
 // if (cluster.isMaster) {
 //     const numCPUs = os.cpus().length;

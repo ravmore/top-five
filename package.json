@@ -29,7 +29,8 @@
     "pg": "^7.4.1",
     "react-redux": "^5.0.7",
     "redux": "^3.7.2",
-    "sequelize": "^4.37.6"
+    "sequelize": "^4.37.6",
+    "sqlite3": "^4.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

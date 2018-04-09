@@ -34,12 +34,6 @@ rootRouter.all([apiPath, `${apiPath}/*`], apiRouter);
 //            Auth Router           //
 //:::::::::::::::::::::::::::::::::://
 
-<<<<<<< HEAD:web-app/src/server/routers/spotifyRouter.js
-//  route returns url to spotify authorization check
-authRouter.get(authPath, (req, res) => {
-  const redirectUri = `${config.host}/r`;
-  const url = `https://accounts.spotify.com/authorize/?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=${scope}`;
-=======
 // '/spotify/auth'
 //  route returns url to spotify authorization check 
 authRouter.post(authPath, (req, res) => {
@@ -49,7 +43,6 @@ authRouter.post(authPath, (req, res) => {
   const spotifyAuthUrl = 'https://accounts.spotify.com/authorize/';
   const redirectUri = `${config.host}${req.body.redirect}`;
   const url = `${spotifyAuthUrl}?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}`;
->>>>>>> ef6f42646b625257e0a56b51142bcd6b3a1c5d0d:src/server/routers/spotifyRouter.js
   res.send(url);
 });
 
@@ -57,12 +50,7 @@ authRouter.post(authPath, (req, res) => {
 //  route used to exchange code for token
 authRouter.post(`${authPath}/token`, (req, res) => {
   const code = req.query.code;
-<<<<<<< HEAD:web-app/src/server/routers/spotifyRouter.js
-  const state = req.query.state;
-  const redirectUri = `${config.host}/r`;
-=======
   const redirectUri = `${config.host}${req.body.redirect}`;
->>>>>>> ef6f42646b625257e0a56b51142bcd6b3a1c5d0d:src/server/routers/spotifyRouter.js
   const authHeader = 'Basic ' + Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
   if (!req.query.code) {
     res.send({ error: '"code" param required' });
@@ -83,11 +71,9 @@ authRouter.post(`${authPath}/token`, (req, res) => {
     json: true
   })
     .then(({data}) => {
-      console.log('DATA', data);
       res.send(data);
     })
     .catch(e => {
-      console.error(e);
       res.send({ error: e.response.data.error_description });
     });
 });

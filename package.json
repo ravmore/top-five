@@ -16,6 +16,7 @@
     "_build:client": "webpack --watch --mode development -new_console:b",
     "_start": "nodemon build/server/index.js SERVER_LOGS=on -new_console:b",
     "sass": "sass src/client/styling/main.scss static/css/main.css",
+    "seed": "node src/server/db/seed.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Alec Draymore",
@@ -23,7 +24,12 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap": "^4.0.0",
-    "express": "^4.16.3"
+    "debug": "^3.1.0",
+    "express": "^4.16.3",
+    "pg": "^7.4.1",
+    "react-redux": "^5.0.7",
+    "redux": "^3.7.2",
+    "sequelize": "^4.37.6"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -35,7 +41,7 @@
     "babel-preset-stage-2": "^6.24.1",
     "concurrently": "^3.5.1",
     "css-loader": "^0.28.11",
-    "nodemon": "^1.17.2",
+    "nodemon": "^1.17.3",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",

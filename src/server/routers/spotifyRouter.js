@@ -74,7 +74,7 @@ authRouter.post(`${authPath}/token`, (req, res) => {
     })
     .catch(e => {
       console.error(e);
-      res.send({ error: 'token error' });
+      res.send({ error: e.response.data.error_description });
     });
 });
 

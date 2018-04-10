@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import SpotifyAuth from '../spotify-auth/SpotifyAuth';
 import SearchBar from '../search-bar/searchbar';
+import SelectedSongs from '../selectedSongs/selectedSongs';
 
 class Landing extends React.Component {
   constructor(props) {
@@ -36,6 +37,7 @@ class Landing extends React.Component {
             location={this.props.location}
           />
         <SearchBar />
+        <SelectedSongs />
       </div>
     );
   }

@@ -39,8 +39,12 @@ class SpotifyAuth extends React.Component {
   }
 
   componentDidUpdate() {
-    if (!this.state.token.access_token && !this.state.error && this.props.getToken) {
+    if (!this.state.token.access_token && !this.state.error && (this.props.getToken || this.state.params.code)) {
       this.authLogic();
+    } else if (this.state.token.access_token) {
+      this.onToken();
+    } else if (this.state.error === 'Invalid authorization code') {
+      this.setState({ params: {}, error: null });
     }
   }
 

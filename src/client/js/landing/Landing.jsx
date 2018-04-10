@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 
 import SpotifyAuth from '../spotify-auth/SpotifyAuth';
 import SearchBar from '../search-bar/searchbar';
+<<<<<<< HEAD
+=======
 import SelectedSongs from '../selectedSongs/selectedSongs';
+>>>>>>> 2ca4f8b76c66ecee5fa29231283a04e822ae7a3d
 
 class Landing extends React.Component {
   constructor(props) {
@@ -26,6 +29,16 @@ class Landing extends React.Component {
     return (
       <div>
         Top Five
+<<<<<<< HEAD
+        <button
+          onClick={this.handleAuthClick}
+        >Auth</button>
+        <SpotifyAuth
+          getToken={this.state.doAuth}
+          location={this.props.location}
+        ></SpotifyAuth>
+        <SearchBar />
+=======
         {
           this.props.token.access_token ? null :
           <button
@@ -38,11 +51,15 @@ class Landing extends React.Component {
           />
         <SearchBar />
         <SelectedSongs />
+>>>>>>> 2ca4f8b76c66ecee5fa29231283a04e822ae7a3d
       </div>
     );
   }
 };
 
+<<<<<<< HEAD
+export default connect()(Landing);;
+=======
 export default connect(mapStateToProps, null)(Landing);;
 
 function mapStateToProps(state, ownProps) {
@@ -51,3 +68,4 @@ function mapStateToProps(state, ownProps) {
     token: state.token,
   };
 };
+>>>>>>> 2ca4f8b76c66ecee5fa29231283a04e822ae7a3d

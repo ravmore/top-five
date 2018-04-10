@@ -1,32 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-<<<<<<< HEAD
-function SearchBar(props){
-  console.log('token', props.token);
-  return (
-    <div>
-      
-      <input onChange={ (ev)=> console.log(ev.target.value) } />
-    </div>
-  )
-}
-
-const mapState = ({ token })=>{
-  return {
-    token
-  }
-};
-
-export default connect(mapState)(SearchBar);
-
-// url: 'https://api.spotify.com/v1/search?q={searchQuery}&type=track%2Cartist'
-//
-// header
-// "Accept: application/json"
-// "Content-Type: application/json"
-// "Authorization: Bearer ${token}"
-=======
 import axios from 'axios';
 import { addSong } from '../redux/songs';
 
@@ -102,4 +76,3 @@ const mapDispatch = (dispatch)=>{
 }
 
 export default connect(mapState, mapDispatch)(SearchBar);
->>>>>>> 2ca4f8b76c66ecee5fa29231283a04e822ae7a3d

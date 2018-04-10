@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
 import axios from 'axios';
+
 import { addSong } from '../redux/songs';
+import SearchItem from './SearchItem';
 
 class SearchBar extends Component{
   constructor(props){
     super(props);
+
     this.state = {
       results: []
     };
+
     this.handleAddSong = this.handleAddSong.bind(this);
+    this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
   }
+
   handleAddSong(ev){
     var song = {
       id: ev.target.id,
@@ -21,44 +26,32 @@ class SearchBar extends Component{
     this.props.addSongToPlaylist(song);
     //temporary browser storage till 5 songs are submitted
   }
+
+  handleSearchInputChange(ev) {
+    if (ev.target.value) {
+      const token = this.props.token.access_token;
+      axios.get(`/spotify/api/search?token=${token}&searchQuery=${ev.target.value}`)
+        .then(tracks => {
+          console.log(tracks)
+          this.setState({ results: tracks.data });
+        })
+        .catch(er => console.log(er));
+    } else {
+      this.setState({ results: [] })
+    }
+  }
+
   render(){
     const token = this.props.token.access_token;
     const { songs } = this.props;
     return (
       <div>
-        {token &&
-          <input onChange={ (ev)=> {
-              axios.get(`/api/spotify/search?token=${token}&searchQuery=${ev.target.value}`)
-              .then(tracks => {
-                this.setState({ results: tracks.data });
-              })
-              .catch(er => console.log(er));
-            } } />
-        }
-        { this.state.results.length > 0 &&
-          this.state.results.map(track => {
-            return (
-              <div key={track.id}>
-                <b>{track.name}</b>
-                { track.artists.map(artist => {
-                    return (
-                      <em key={artist.id}> | { artist.name }</em>
-                    )
-                  })
-                }
-                { songs.length < 5 ?
-                    <button id={track.id} name={track.name} onClick={this.handleAddSong}>+</button>
-                    :
-                    <b>you have 5 songs!</b>
-                }
-              </div>
-            )
-          })
-        }
+        { token && <input onChange={this.handleSearchInputChange} /> }
+        { this.state.results.map(track => <SearchItem key={track.id} track={track} canAdd={songs.length < 5} handleAddSong={this.handleAddSong} />) }
       </div>
-    )
+    );
   }
-}
+};
 
 const mapState = ({ token, songs })=>{
   return {

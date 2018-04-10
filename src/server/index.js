@@ -7,13 +7,8 @@ import bodyParser from 'body-parser';
 import { db } from './db';
 import config from './config';
 import renderRouter from './routers/renderRouter';
-import spotifyRouter from './routers/spotifyRouter';
+import spotifyRouter from './routers/spotify-routers/spotifyRouter';
 
-<<<<<<< HEAD
-const { db } = require('./db')
-
-=======
->>>>>>> 2ca4f8b76c66ecee5fa29231283a04e822ae7a3d
 //:::::::::::::::::::::::::::::::::://
 //     single instance server       //
 //:::::::::::::::::::::::::::::::::://
@@ -44,7 +39,7 @@ app.all(['/r', '/r/*'], renderRouter);
 app.get('/', (req, res) => res.redirect('/r'));
 
 // router for Spotify API
-app.all(['/spotify', '/spotify/*'], spotifyRouter)
+app.use('/spotify', spotifyRouter)
 
 //App API
 app.use('/api', require('./api'));

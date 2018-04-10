@@ -22,4 +22,4 @@ router.all('*', (req, res) => {
   res.status(200).send(getHtml(app, 'Top Five'));
 });
 
-module.exports = router;
+export default router;

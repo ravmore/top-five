@@ -7,14 +7,14 @@ import bodyParser from 'body-parser';
 import { db } from './db';
 import config from './config';
 import renderRouter from './routers/renderRouter';
-import spotifyRouter from './routers/spotifyRouter';
-
+import spotifyRouter from './routers/spotify-routers/spotifyRouter';
 
 //:::::::::::::::::::::::::::::::::://
 //     single instance server       //
 //:::::::::::::::::::::::::::::::::://
 
 // initialize express app
+
 const app = express();
 
 // logs to console all incoming requests for debugging
@@ -39,7 +39,7 @@ app.all(['/r', '/r/*'], renderRouter);
 app.get('/', (req, res) => res.redirect('/r'));
 
 // router for Spotify API
-app.all(['/spotify', '/spotify/*'], spotifyRouter)
+app.use('/spotify', spotifyRouter)
 
 //App API
 app.use('/api', require('./api'));
@@ -49,6 +49,13 @@ db.sync()
 .then(()=> {
   app.listen(config.PORT, () => console.log(`Listening on port ${config.PORT}`))
 });
+
+// if (cluster.isMaster) {
+//     const numCPUs = os.cpus().length;
+
+//:::::::::::::::::::::::::::::::::://
+//        server cluster            //
+//:::::::::::::::::::::::::::::::::://
 
 // if (cluster.isMaster) {
 //     const numCPUs = os.cpus().length;

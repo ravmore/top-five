@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
-import {
-SET_TOKEN,
-} from './actions';
+import { SET_TOKEN, } from './actions';
+import songsReducer from './songs';
 
 const tokenReducer = (state={}, action) => {
   switch(action.type) {
@@ -14,4 +13,5 @@ const tokenReducer = (state={}, action) => {
 
 export default combineReducers({
   token: tokenReducer,
+  songs: songsReducer,
 });

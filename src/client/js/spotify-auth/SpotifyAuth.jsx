@@ -49,12 +49,12 @@ class SpotifyAuth extends React.Component {
   }
 
   onToken() {
-    if (!!this.props.onToken)
+    if (this.props.onToken)
       this.props.onToken(this.state.token);
   }
 
   onError() {
-    if (!!this.props.onError)
+    if (this.props.onError)
       this.props.onError(this.state.error);
   }
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import axios from 'axios';
+import { addSong } from '../redux/songs';
 
 class SearchBar extends Component{
   constructor(props){
@@ -11,11 +12,18 @@ class SearchBar extends Component{
     };
     this.handleAddSong = this.handleAddSong.bind(this);
   }
-  handleAddSong(){
-    //spotifyWriteToPlaylist
+  handleAddSong(ev){
+    var song = {
+      id: ev.target.id,
+      name: ev.target.name,
+      artists: ev.target.artists
+    };
+    this.props.addSongToPlaylist(song);
+    //temporary browser storage till 5 songs are submitted
   }
   render(){
     const token = this.props.token.access_token;
+    const { songs } = this.props;
     return (
       <div>
         {token &&
@@ -38,7 +46,11 @@ class SearchBar extends Component{
                     )
                   })
                 }
-                <button onClick={this.handleAddSong}>+</button>
+                { songs.length < 5 ?
+                    <button id={track.id} name={track.name} onClick={this.handleAddSong}>+</button>
+                    :
+                    <b>you have 5 songs!</b>
+                }
               </div>
             )
           })
@@ -48,17 +60,19 @@ class SearchBar extends Component{
   }
 }
 
-const mapState = ({ token })=>{
+const mapState = ({ token, songs })=>{
   return {
-    token
+    token,
+    songs
   }
 };
 
-export default connect(mapState, null)(SearchBar);
+const mapDispatch = (dispatch)=>{
+  return {
+    addSongToPlaylist: (song)=>{
+      return dispatch(addSong(song));
+    }
+  }
+}
 
-// url: 'https://api.spotify.com/v1/search?q={searchQuery}&type=track%2Cartist'
-//
-// header
-// "Accept: application/json"
-// "Content-Type: application/json"
-// "Authorization: Bearer ${token}"
+export default connect(mapState, mapDispatch)(SearchBar);

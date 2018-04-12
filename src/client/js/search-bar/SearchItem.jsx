@@ -8,12 +8,29 @@ const SearchItem = props => (
         <em key={artist.id}> | { artist.name }</em>
       )
     }
-    { 
-      props.canAdd 
-        ? <button id={props.track.id} name={props.track.name} onClick={props.handleAddSong}>+</button>
-        : <b>you have 5 songs!</b>
-    }
+    {getItemAction(props)}
   </div>
 );
+
+function getItemAction(props) {
+  if (props.added) {
+    return (
+      <button
+        id={props.track.id}
+        name={props.track.name}
+        onClick={props.handleRemoveSong || (e => null)}
+      >-</button>
+    );
+  } else if (props.canAdd) {
+    return (
+      <button
+        id={props.track.id}
+        name={props.track.name}
+        onClick={props.handleAddSong}
+      >+</button>
+    );
+  }
+  return <b>you have 5 songs!</b>;
+}
 
 export default SearchItem;

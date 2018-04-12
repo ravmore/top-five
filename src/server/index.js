@@ -9,11 +9,6 @@ import config from './config';
 import renderRouter from './routers/renderRouter';
 import spotifyRouter from './routers/spotifyRouter';
 
-<<<<<<< HEAD
-const { db } = require('./db')
-
-=======
->>>>>>> 2ca4f8b76c66ecee5fa29231283a04e822ae7a3d
 //:::::::::::::::::::::::::::::::::://
 //     single instance server       //
 //:::::::::::::::::::::::::::::::::://

@@ -1,53 +1,44 @@
 import React from 'react';
-import axios from 'axios';
-import { connect } from 'react-redux';
 
 import SpotifyAuth from '../spotify-auth/SpotifyAuth';
-import SearchBar from '../search-bar/searchbar';
-import SelectedSongs from '../selectedSongs/selectedSongs';
 
-class Landing extends React.Component {
+class Home extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      doAuth: false,
+      enter: false,
     };
 
-    this.handleAuthClick = this.handleAuthClick.bind(this);
+    this.handleEnterClick = this.handleEnterClick.bind(this);
+    this.handleOnToken = this.handleOnToken.bind(this);
   }
 
-  handleAuthClick(e) {
+  handleEnterClick(e) {
     e.preventDefault();
-    this.setState({ doAuth: true });
+    this.setState({ enter: true });
+  }
+
+  handleOnToken(token) {
+    this.props.history.push('/home');
   }
 
   render() {
     return (
       <div>
-        Top Five
-        {
-          this.props.token.access_token ? null :
-          <button
-            onClick={this.handleAuthClick}
-          >Auth</button>
-        }
+        <h1>Welcome to Top Five</h1>
+        <button
+          type="button"
+          onClick={this.handleEnterClick}
+        >Enter</button>
         <SpotifyAuth
-          getToken={this.state.doAuth}
+          getToken={this.state.enter}
           location={this.props.location}
+          onToken={this.handleOnToken}
         />
-        <SearchBar />
-        <SelectedSongs />
       </div>
     );
   }
 };
 
-export default connect(mapStateToProps, null)(Landing);;
-
-function mapStateToProps(state, ownProps) {
-  return {
-    ...ownProps,
-    token: state.token,
-  };
-};
+export default Home;

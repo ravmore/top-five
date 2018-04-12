@@ -49,6 +49,7 @@ class SpotifyAuth extends React.Component {
   }
 
   onToken() {
+    this.props.dispatchToken(this.state.token);
     if (this.props.onToken)
       this.props.onToken(this.state.token);
   }
@@ -114,7 +115,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch, ownProps) {
   return {
     ...ownProps,
-    onToken: (token) => {
+    dispatchToken: (token) => {
       dispatch(setTokenAction(token));
     },
   };

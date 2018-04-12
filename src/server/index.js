@@ -20,7 +20,15 @@ const app = express();
 // logs to console all incoming requests for debugging
 // set env variable SERVER_LOGS to 'on' for logging
 // NOTE: must restart node/nodemon to update changes in env variables
-if (process.env.SERVER_LOGS === 'on'){
+
+const argvs = process.argv.reduce((memo, arg) => {
+  let tup = arg.split('=');
+  if (tup.length < 2) 
+    tup.push(true);
+  return {...memo, [tup[0]]: tup[1]};
+}, {});
+
+if (argvs.logs === 'on') {
   app.use((req, res, next) => {
     console.log(`:::SERVER LOG::: Recieved ${req.method} request for ${req.path}`);
     next();

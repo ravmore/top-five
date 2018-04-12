@@ -91,12 +91,12 @@ const findOrCreateUser = (token) => {
   })
   .then(({data})=>{
     const { id, display_name, images } = data;
-    return axios.get(`/api/user/${id}`)
+    return axios.get(`${config.host}/api/user/${id}`)
       .then(res => {
         console.log('axiosTHEN');
         if(!res.data) {
           console.log('new user');
-          return axios.post(`/api/user/${id}`, {
+          return axios.post(`${config.host}/api/user/${id}`, {
             spotifyID: id,
             name: display_name,
             image: images[0].url

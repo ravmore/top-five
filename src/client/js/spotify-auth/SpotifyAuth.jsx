@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 
-import { setTokenAction } from '../redux/actions';
+import { setTokenAction } from '../redux/token';
 
 // Required Props:
 //    locaiton  (object)  - The location object pased down from react-router-dom

@@ -1,10 +1,26 @@
+// FLUX STANDARD ACTION
+//  An action MUST:
+//    be a plain JavaScript object.
+//    have a ```type``` property.
+//  An action MAY:
+//    have an ```error``` property.
+//    have a ```payload``` property.
+//    have a ```meta``` property.
+//  More details @ https://github.com/redux-utilities/flux-standard-action
+
 import axios from 'axios';
 
-//Action type
+//:::::::::::::::::::::::::::::::::://
+//           Action Types           //
+//:::::::::::::::::::::::::::::::::://
+
 const ADD_SONG = 'ADD_SONG';
 const REMOVE_SONG = 'REMOVE_SONG';
 
-//Action creator
+//:::::::::::::::::::::::::::::::::://
+//          Action Creators         //
+//:::::::::::::::::::::::::::::::::://  
+
 export const addSong = (song) => {
   return {
     type: ADD_SONG,
@@ -19,7 +35,10 @@ export const removeSong = (song) => {
   };
 };
 
-//Reducer
+//:::::::::::::::::::::::::::::::::://
+//             REDUCERS             //
+//:::::::::::::::::::::::::::::::::://
+
 export default (state=[], action) => {
   switch (action.type) {
     case ADD_SONG:

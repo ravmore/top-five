@@ -1,8 +1,8 @@
 import { createStore, applyMiddleware } from 'redux';
-import appReducer from './reducers';
+import reducer from './comboReducer';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
 const middleware = applyMiddleware(thunk, logger);
 
-export default (state) => createStore(appReducer, middleware, state);
+export default (state) => createStore(reducer, middleware, state);

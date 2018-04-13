@@ -7,7 +7,7 @@ class Home extends React.Component {
     super(props);
 
     this.state = {
-      enter: false,
+      enter: true,
     };
 
     this.handleEnterClick = this.handleEnterClick.bind(this);

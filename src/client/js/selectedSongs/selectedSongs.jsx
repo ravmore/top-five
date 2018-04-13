@@ -2,29 +2,24 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { removeSong } from '../redux/songs';
+import Song from './Song';
 
 const selectedSongs = (props)=>{
   return (
-    <div>
-      <h1>Your Selections</h1>
-      {
-        props.songs.map((song, index) =>{
-          return (
-            <div key={song.id}>
-              <h1>{index+1}</h1>
-              <h5>{song.name}</h5>
-              <em>{song.artist}</em>
-              <button
-                type="button"
-                onClick={(e) => props.removeSongFromPlaylist(song)}
-              >-</button>
-            </div>
-          );
-        })
+    <div className="container-fluid">
+      <div className="row justify-content-center">
+        <h1>Your Selections</h1>
+      </div>
+      <div className="row justify-content-around">
+      { props.songs.map((song, index) => <Song removeSong={props.removeSongFromTop} key={song.id || index} songDetails={song} number={index + 1} />) }
+      </div>
+      <div className="row justify-content-center">
+      { 
+        props.songs.every(song => song.id) && props.songs.length === 5 
+          ? <button>Submit Your Top 5!</button>
+          : null
       }
-      { props.songs.length === 5 &&
-        <button>Submit Your Top 5!</button>
-      }
+      </div>
     </div>
   )
 }
@@ -38,7 +33,7 @@ const mapStateToProps = ({ songs }, ownProps) => {
 
 const mapDispatch = dispatch => {
   return {
-    removeSongFromPlaylist: song => {
+    removeSongFromTop: song => {
       return dispatch(removeSong(song));
     },
   }

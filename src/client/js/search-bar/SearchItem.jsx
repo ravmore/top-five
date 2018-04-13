@@ -17,7 +17,6 @@ function getItemAction(props) {
     return (
       <button
         id={props.track.id}
-        name={props.track.name}
         onClick={props.handleRemoveSong || (e => null)}
       >-</button>
     );
@@ -26,7 +25,7 @@ function getItemAction(props) {
       <button
         id={props.track.id}
         name={props.track.name}
-        onClick={props.handleAddSong}
+        onClick={(e) => props.handleAddSong(props.track)}
       >+</button>
     );
   }

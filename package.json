@@ -14,7 +14,7 @@
     "dev": "concurrently --kill-others \"npm run _build:server\" \"npm run _build:client\" \"npm run _start\"",
     "_build:server": "babel ./src -d build --watch -new_console:b",
     "_build:client": "webpack --watch --mode development -new_console:b",
-    "_start": "nodemon build/server/index.js SERVER_LOGS=on -new_console:b",
+    "_start": "nodemon build/server/index.js logs=on -new_console:b",
     "sass": "sass src/client/styling/main.scss static/css/main.css",
     "seed": "node src/server/db/seed.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -23,7 +23,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",
-    "bootstrap": "^4.0.0",
+    "bootstrap": "^4.1.0",
     "debug": "^3.1.0",
     "express": "^4.16.3",
     "pg": "^7.4.1",

@@ -48,11 +48,41 @@ authRouter.post('/token', (req, res) => {
     json: true
   })
     .then(({data}) => {
+      const token = data.access_token;
+      findOrCreateUser(token);
       res.send(data);
     })
     .catch(e => {
+      console.error(e.message);
       res.send({ error: e.response.data.error_description });
     });
 });
 
-export default authRouter;
+
+const findOrCreateUser = (token) => {
+  return axios.get('https://api.spotify.com/v1/me', {
+    headers: {
+        Authorization: `Bearer ${token}`
+    }
+  })
+  .then(({data})=>{
+    const { id, display_name, images } = data;
+    return axios.get(`${config.host}/api/user/${id}`)
+      .then(res => {
+        console.log('axiosTHEN');
+        if(!res.data) {
+          console.log('new user');
+          return axios.post(`${config.host}/api/user/${id}`, {
+            spotifyID: id,
+            name: display_name,
+            image: images[0].url
+          })
+          .then(res => console.log('user created'))
+        }
+      })
+      .catch(er => console.log('find user error', er))
+  })
+  .catch(er=>console.log('could not get user data', er))
+}
+
+module.exports = authRouter;

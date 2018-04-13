@@ -49,7 +49,7 @@ app.get('/', (req, res) => res.redirect('/r/landing'));
 app.use('/spotify', spotifyRouter)
 
 //App API
-app.use('/api', require('./api'));
+app.use('/api', require('./routers/api-router'));
 
 // All workers use this port
 db.sync()

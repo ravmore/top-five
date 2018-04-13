@@ -18,11 +18,11 @@ class SearchBar extends Component{
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
   }
 
-  handleAddSong(ev){
+  handleAddSong(track ){
     var song = {
-      id: ev.target.id,
-      name: ev.target.name,
-      artists: ev.target.artists
+      id: track.id,
+      name: track.name,
+      artists: track.artists
     };
     this.props.addSongToPlaylist(song);
     //temporary browser storage till 5 songs are submitted
@@ -34,7 +34,7 @@ class SearchBar extends Component{
       name: ev.target.name,
       artists: ev.target.artists
     };
-    this.props.removeSongFromPlaylist(song);
+    this.props.removeSongFromTop(song);
     //temporary browser storage till 5 songs are submitted
   }
 
@@ -56,13 +56,17 @@ class SearchBar extends Component{
     const { songs } = this.props;
     return (
       <div>
-        { token && <input onChange={this.handleSearchInputChange} /> }
+        <p>Search:</p>
+        <input 
+          onChange={this.handleSearchInputChange}
+          placeholder="What are you looking for?"
+        />
         { 
           this.state.results.map(track => 
             <SearchItem
               key={track.id}
               track={track}
-              canAdd={songs.length < 5}
+              canAdd={!songs.every(song => song.id)}
               added={songs.some(song => track.id === song.id)}
               handleAddSong={this.handleAddSong} 
               handleRemoveSong={this.handleRemoveSong} 
@@ -86,7 +90,7 @@ const mapDispatch = dispatch => {
     addSongToPlaylist: song => {
       return dispatch(addSong(song));
     },
-    removeSongFromPlaylist: song => {
+    removeSongFromTop: song => {
       return dispatch(removeSong(song));
     },
   }

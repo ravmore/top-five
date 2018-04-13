@@ -43,7 +43,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 
 // routes for server rendering
 app.all(['/r', '/r/*'], renderRouter);
-app.get('/', (req, res) => res.redirect('/r'));
+app.get('/', (req, res) => res.redirect('/r/landing'));
 
 // router for Spotify API
 app.use('/spotify', spotifyRouter)

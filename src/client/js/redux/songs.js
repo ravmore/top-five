@@ -39,16 +39,25 @@ export const removeSong = (song) => {
 //             REDUCERS             //
 //:::::::::::::::::::::::::::::::::://
 
-export default (state=[], action) => {
+export default (state=[{}, {}, {}, {}, {}], action) => {
   switch (action.type) {
     case ADD_SONG:
-      return state.concat(action.song);
+      let added = false;
+      return state.map(song => {
+        if (added || song.id)
+          return song;
+        added = true;
+        return action.song;
+      });
     case REMOVE_SONG:
-      return state.reduce((arr, song) => {
+      const newState = state.reduce((arr, song) => {
         if (song.id === action.payload.id)
           return arr;
         return [...arr, song];
       }, []);
+      while (newState.length < 5)
+        newState.push({});
+      return newState;
     default:
       return state;
   }

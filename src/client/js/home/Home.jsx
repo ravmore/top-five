@@ -33,11 +33,12 @@ class Landing extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Your Home Page</h1>
-        <p>search tracks:</p>
-        <SearchBar />
+      <div className="container-fluid">
+        <div className="row justify-content-center">
+          <h1>Your Home Page</h1>
+        </div>
         <SelectedSongs />
+        <SearchBar />
       </div>
     );
   }

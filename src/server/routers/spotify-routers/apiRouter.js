@@ -19,7 +19,7 @@ apiRouter.get('/', (req, res) => {
 // '/spotify/auth/search'
 //  route returns tracks matching the query param
 apiRouter.get('/search', (req, res) => {
-  const { token, searchQuery } = req.query;
+  const { token, searchQuery, type } = req.query;
   axios.get(`https://api.spotify.com/v1/search?q=${searchQuery}&type=track`, {
     headers: {
       'Authorization': `Bearer ${token}`,

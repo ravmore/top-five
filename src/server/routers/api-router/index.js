@@ -6,5 +6,5 @@ router.get('/', (req, res) => {
   res.send('home');
 })
 
-router.use('/spotify', require('./spotify'));
+// '/api/user'
 router.use('/user', require('./user'));

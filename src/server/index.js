@@ -7,7 +7,7 @@ import bodyParser from 'body-parser';
 import { db } from './db';
 import config from './config';
 import renderRouter from './routers/renderRouter';
-import spotifyRouter from './routers/spotifyRouter';
+import spotifyRouter from './routers/spotify-routers/spotifyRouter';
 
 //:::::::::::::::::::::::::::::::::://
 //     single instance server       //
@@ -17,10 +17,17 @@ import spotifyRouter from './routers/spotifyRouter';
 
 const app = express();
 
+// makes object out of argv array
+const argvs = process.argv.reduce((memo, arg) => {
+  let tup = arg.split('=');
+  if (tup.length < 2) 
+    tup.push(true);
+  return {...memo, [tup[0]]: tup[1]};
+}, {});
+
 // logs to console all incoming requests for debugging
-// set env variable SERVER_LOGS to 'on' for logging
-// NOTE: must restart node/nodemon to update changes in env variables
-if (process.env.SERVER_LOGS === 'on'){
+// add argv "logs=on" i.e. node build/server/index.js logs=on
+if (argvs.logs === 'on') {
   app.use((req, res, next) => {
     console.log(`:::SERVER LOG::: Recieved ${req.method} request for ${req.path}`);
     next();
@@ -36,13 +43,13 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 
 // routes for server rendering
 app.all(['/r', '/r/*'], renderRouter);
-app.get('/', (req, res) => res.redirect('/r'));
+app.get('/', (req, res) => res.redirect('/r/landing'));
 
 // router for Spotify API
-app.all(['/spotify', '/spotify/*'], spotifyRouter)
+app.use('/spotify', spotifyRouter)
 
 //App API
-app.use('/api', require('./api'));
+app.use('/api', require('./routers/api-router'));
 
 // All workers use this port
 db.sync()

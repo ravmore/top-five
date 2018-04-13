@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 module.exports = router;
 
-const { User } = require('../db').models;
+const { User } = require('../../db').models;
 
 router.get('/:spotifyID', (req, res)=>{
   User.findOne({

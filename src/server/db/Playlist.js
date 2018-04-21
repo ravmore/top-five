@@ -1,6 +1,8 @@
 const db = require('./db');
 const { Sequelize } = db;
 
+const Song = require('./Song');
+
 const playlist = db.define('playlist', {
   name: {
     type: Sequelize.STRING,
@@ -8,6 +10,12 @@ const playlist = db.define('playlist', {
     validate: {
       notEmpty: true
     }
+  }
+}, {
+  defaultScope: {
+    include: [
+      { model: Song }
+    ]
   }
 });
 

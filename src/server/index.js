@@ -20,14 +20,14 @@ const app = express();
 // makes object out of argv array
 const argvs = process.argv.reduce((memo, arg) => {
   let tup = arg.split('=');
-  if (tup.length < 2) 
+  if (tup.length < 2)
     tup.push(true);
   return {...memo, [tup[0]]: tup[1]};
 }, {});
 
 // logs to console all incoming requests for debugging
 // add argv "logs=on" i.e. node build/server/index.js logs=on
-if (argvs.logs === 'on') {
+if (true) {
   app.use((req, res, next) => {
     console.log(`:::SERVER LOG::: Recieved ${req.method} request for ${req.path}`);
     next();

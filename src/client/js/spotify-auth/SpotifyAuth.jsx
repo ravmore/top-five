@@ -3,6 +3,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 
 import { setTokenAction } from '../redux/token';
+import { setUser } from '../redux/user';
 
 // Required Props:
 //    locaiton  (object)  - The location object pased down from react-router-dom
@@ -72,12 +73,15 @@ class SpotifyAuth extends React.Component {
     axios.post(`/spotify/auth/token?code=${code}`, {
       redirect,
     })
-      .then(({data}) => {
+      .then((res) => {
+        const { data, user } = res.data;
+        console.log(data, 'user', user);
         if (!!data.error)
           this.setState({ error: data.error });
         else {
           this.setState({ token: data });
         }
+        this.props.dispatchUser(user);
       })
       .catch(e => null);
   }
@@ -118,5 +122,8 @@ function mapDispatchToProps(dispatch, ownProps) {
     dispatchToken: (token) => {
       dispatch(setTokenAction(token));
     },
+    dispatchUser: (user) => {
+      dispatch(setUser(user))
+    }
   };
 };

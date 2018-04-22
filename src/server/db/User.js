@@ -14,7 +14,7 @@ const user = db.define('user', {
     defaultValue: 0
   },
   image: Sequelize.STRING,
-  spotifyID: Sequelize.STRING
+  spotifyID: Sequelize.STRING,
 });
 
 module.exports = user

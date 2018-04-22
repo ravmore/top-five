@@ -6,6 +6,10 @@ import { Redirect } from 'react-router-dom';
 import SpotifyAuth from '../spotify-auth/SpotifyAuth';
 import SearchBar from '../search-bar/searchbar';
 import SelectedSongs from '../selectedSongs/selectedSongs';
+import PlaylistCreator from '../playlist/PlaylistCreator';
+import Playlists from '../playlists/Playlists';
+
+// import getUserInfo from '../redux/user';
 
 class Landing extends React.Component {
   constructor(props) {
@@ -39,6 +43,8 @@ class Landing extends React.Component {
         </div>
         <SelectedSongs />
         <SearchBar />
+        <PlaylistCreator />
+        <Playlists style={{ float: 'right' }} />
       </div>
     );
   }

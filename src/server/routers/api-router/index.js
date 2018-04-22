@@ -8,3 +8,4 @@ router.get('/', (req, res) => {
 
 // '/api/user'
 router.use('/user', require('./user'));
+router.use('/playlist', require('./playlist'));

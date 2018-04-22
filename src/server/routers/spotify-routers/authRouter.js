@@ -34,6 +34,7 @@ authRouter.post('/token', (req, res) => {
   } else if (!req.body.redirect) {
     res.send({ error: '"redirect" body property required' });
   }
+  console.log('CODE', code);
   axios({
     method: 'post',
     url: 'https://accounts.spotify.com/api/token',
@@ -49,8 +50,11 @@ authRouter.post('/token', (req, res) => {
   })
     .then(({data}) => {
       const token = data.access_token;
-      findOrCreateUser(token);
-      res.send(data);
+      findOrCreateUser(token)
+      .then(user => {
+        console.log('DATAAAAA', data, 'USERRRRR', user);
+        res.send({data, user});
+      })
     })
     .catch(e => {
       console.error(e.message);
@@ -77,12 +81,14 @@ const findOrCreateUser = (token) => {
             name: display_name,
             image: images[0].url
           })
-          .then(res => console.log('user created'))
+          .then(res =>res.data)
+        } else {
+          return res.data;
         }
       })
-      .catch(er => console.log('find user error', er))
+      .catch(er => console.log('find user error', er));
   })
-  .catch(er=>console.log('could not get user data', er))
-}
+  .catch(er=>console.log('could not get user data', er));
+};
 
 module.exports = authRouter;
